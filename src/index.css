@@ -308,6 +308,61 @@ table.history th { color: var(--text-dim); font-weight: 500; text-transform: upp
 }
 .posture .warn { border-left-color: var(--warn); }
 
+.diagram-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+.diagram-solo {
+  margin: 1rem 0;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem;
+}
+.diagram-solo svg { width: 100%; height: auto; display: block; }
+.diagram-panel {
+  margin: 0;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem 0.6rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.diagram-panel svg { width: 100%; height: auto; display: block; }
+.diagram-panel figcaption {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  text-align: center;
+}
+.diagram-panel.ok figcaption { color: var(--good); }
+.diagram-panel.bad figcaption { color: var(--bad); }
+.diagram-panel.ok { border-color: var(--good); }
+.diagram-panel.bad { border-color: var(--bad); }
+.diagram-mark {
+  display: inline-block;
+  font-weight: 700;
+  margin-right: 0.2rem;
+}
+
+.src-link {
+  font-size: 0.82em;
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--text-dim);
+  padding: 0 2px;
+  white-space: nowrap;
+}
+.src-link::before { content: '['; }
+.src-link::after { content: ']'; }
+.src-link:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
 .segmented {
   display: inline-flex;
   border: 1px solid var(--border);
