@@ -1,6 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { LESSONS, TEST_QUOTES, pickRandomQuote } from './lessons';
 import { keyFor } from './aliceLayout';
+import en from './i18n/en';
+import zhCN from './i18n/zh-CN';
+import zhTW from './i18n/zh-TW';
+import ja from './i18n/ja';
 
 const HOME_LEFT = [...'asdf'];
 const HOME_RIGHT = [...'jkl;'];
@@ -41,10 +45,20 @@ describe('LESSONS', () => {
   });
 
   describe.each(LESSONS)('$id', (lesson) => {
-    it('has a non-empty title, description, and drill', () => {
-      expect(lesson.title.length).toBeGreaterThan(0);
-      expect(lesson.desc.length).toBeGreaterThan(0);
+    it('has a non-empty drill', () => {
       expect(lesson.drill.length).toBeGreaterThan(0);
+    });
+
+    it.each([
+      ['en', en],
+      ['zh-CN', zhCN],
+      ['zh-TW', zhTW],
+      ['ja', ja],
+    ])('has non-empty title and desc in %s', (_name, messages) => {
+      const entry = messages.lessons.items[lesson.id];
+      expect(entry, `missing lesson meta for ${lesson.id}`).toBeDefined();
+      expect(entry.title.length).toBeGreaterThan(0);
+      expect(entry.desc.length).toBeGreaterThan(0);
     });
 
     it('drill uses only characters in its declared scope', () => {

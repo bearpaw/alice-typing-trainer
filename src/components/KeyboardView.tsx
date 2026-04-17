@@ -1,4 +1,5 @@
 import { leftHalf, rightHalf, FINGER_COLOR, Key, keyFor } from '../lib/aliceLayout';
+import { useT } from '../lib/i18n/context';
 
 type Props = {
   highlightChar: string | null;
@@ -142,14 +143,16 @@ export function KeyboardView({ highlightChar, width = 920, wrongHit = false }: P
 }
 
 export function SplitCallout({ char }: { char: string | null }) {
+  const t = useT();
   if (!char) return null;
   const k = keyFor(char);
   if (!k || !k.splitSensitive) return null;
-  const handLabel = k.hand === 'L' ? 'LEFT' : 'RIGHT';
+  const handLabel = k.hand === 'L' ? t.keyboard.hand.left : t.keyboard.hand.right;
+  const fingerLabel = t.keyboard.finger[k.finger];
   return (
     <div className="keyboard-caption">
-      Split-sensitive — on Alice, <strong>{k.char.toUpperCase()}</strong> belongs to your{' '}
-      <strong>{handLabel}</strong> {k.finger}.
+      {t.keyboard.splitCalloutPrefix} <strong>{k.char.toUpperCase()}</strong>{' '}
+      {t.keyboard.splitCalloutBelongsTo} <strong>{handLabel}</strong> {fingerLabel}.
     </div>
   );
 }

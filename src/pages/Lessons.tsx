@@ -1,30 +1,56 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { LESSONS, Lesson } from '../lib/lessons';
+import { useNavigate, useParams } from 'react-router-dom';
+import { LESSONS, LessonDrill } from '../lib/lessons';
 import { TypingArena, TypingStats } from '../components/TypingArena';
 import { KeyboardView, SplitCallout } from '../components/KeyboardView';
 import { loadLessonProgress, saveLessonResult } from '../lib/storage';
 import { useSeo } from '../lib/seo';
+import { useLocaleCtx } from '../lib/i18n/context';
+import type { Messages } from '../lib/i18n/types';
 
-function LessonCard({ lesson, done }: { lesson: Lesson; done: boolean }) {
+function LessonCard({
+  lesson,
+  done,
+  t,
+  onOpen,
+}: {
+  lesson: LessonDrill;
+  done: boolean;
+  t: Messages;
+  onOpen: (id: string) => void;
+}) {
+  const meta = t.lessons.items[lesson.id];
   return (
-    <Link
-      to={`/lessons/${lesson.id}`}
+    <a
+      href="#"
+      onClick={(e) => {
+        e.preventDefault();
+        onOpen(lesson.id);
+      }}
       className={`lesson-card ${done ? 'done' : ''}`}
       style={{ textDecoration: 'none', color: 'inherit' }}
     >
-      <div className="num">Lesson</div>
-      <div className="title">{lesson.title}</div>
-      <div className="desc">{lesson.desc}</div>
-    </Link>
+      <div className="num">{t.lessons.cardLabel}</div>
+      <div className="title">{meta.title}</div>
+      <div className="desc">{meta.desc}</div>
+    </a>
   );
 }
 
-function LessonRunner({ lesson, onExit }: { lesson: Lesson; onExit: () => void }) {
+function LessonRunner({
+  lesson,
+  onExit,
+}: {
+  lesson: LessonDrill;
+  onExit: () => void;
+}) {
+  const { t, locale } = useLocaleCtx();
+  const meta = t.lessons.items[lesson.id];
   useSeo({
-    title: `${lesson.title} — Alice Typing Trainer`,
-    description: `${lesson.desc} Practice this Alice-layout drill in your browser.`,
+    title: `${meta.title} — ${t.seo.lesson.titleSuffix}`,
+    description: `${meta.desc} ${t.seo.lesson.descSuffix}`,
     path: `/lessons/${lesson.id}`,
+    locale,
   });
   const [nextChar, setNextChar] = useState<string | null>(lesson.drill[0] ?? null);
   const [stats, setStats] = useState<TypingStats | null>(null);
@@ -62,22 +88,22 @@ function LessonRunner({ lesson, onExit }: { lesson: Lesson; onExit: () => void }
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-        <button onClick={onExit}>← All lessons</button>
-        <h1 style={{ margin: 0 }}>{lesson.title}</h1>
+        <button onClick={onExit}>{t.lessons.backAll}</button>
+        <h1 style={{ margin: 0 }}>{meta.title}</h1>
       </div>
-      <p style={{ color: 'var(--text-dim)' }}>{lesson.desc}</p>
+      <p style={{ color: 'var(--text-dim)' }}>{meta.desc}</p>
 
       <div className="stats">
         <div className="stat">
-          <div className="label">WPM</div>
+          <div className="label">{t.lessons.stats.wpm}</div>
           <div className="value">{stats ? stats.wpm.toFixed(1) : '—'}</div>
         </div>
         <div className="stat">
-          <div className="label">Accuracy</div>
+          <div className="label">{t.lessons.stats.accuracy}</div>
           <div className="value">{stats ? `${stats.accuracy.toFixed(1)}%` : '—'}</div>
         </div>
         <div className="stat">
-          <div className="label">Time</div>
+          <div className="label">{t.lessons.stats.time}</div>
           <div className="value">{stats ? (stats.elapsedMs / 1000).toFixed(1) + 's' : '—'}</div>
         </div>
       </div>
@@ -96,21 +122,21 @@ function LessonRunner({ lesson, onExit }: { lesson: Lesson; onExit: () => void }
 
       {finished && stats && (
         <div className="card" style={{ marginTop: '1rem' }}>
-          <h3 style={{ marginTop: 0 }}>Lesson complete</h3>
+          <h3 style={{ marginTop: 0 }}>{t.lessons.complete}</h3>
           <div className="results">
             <div className="big">
-              {stats.wpm.toFixed(1)} <small>WPM</small>
+              {stats.wpm.toFixed(1)} <small>{t.lessons.stats.wpm}</small>
             </div>
             <div className="big">
               {stats.accuracy.toFixed(1)}
-              <small>% accuracy</small>
+              <small>% {t.lessons.stats.accuracy.toLowerCase()}</small>
             </div>
           </div>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button className="primary" onClick={restart}>
-              Retry
+              {t.lessons.retry}
             </button>
-            <button onClick={onExit}>Back to lessons</button>
+            <button onClick={onExit}>{t.lessons.backToLessons}</button>
           </div>
         </div>
       )}
@@ -118,24 +144,28 @@ function LessonRunner({ lesson, onExit }: { lesson: Lesson; onExit: () => void }
   );
 }
 
-function LessonIndex() {
+function LessonIndex({ onOpen }: { onOpen: (id: string) => void }) {
+  const { t, locale } = useLocaleCtx();
   useSeo({
-    title: 'Alice Layout Typing Lessons — Practice Split-Sensitive Keys',
-    description:
-      'Eight progressive typing drills for Alice-layout keyboards, from home row to split-sensitive B, T, G, Y, H, N practice and full sentences.',
+    title: t.seo.lessons.title,
+    description: t.seo.lessons.description,
     path: '/lessons',
+    locale,
   });
   const progress = useMemo(() => loadLessonProgress(), []);
   return (
     <div>
-      <h1>Alice layout typing lessons</h1>
-      <p style={{ color: 'var(--text-dim)' }}>
-        Work through these in order. Lesson 5 and 6 are the most important for un-learning
-        row-staggered habits on an Alice board.
-      </p>
+      <h1>{t.lessons.indexTitle}</h1>
+      <p style={{ color: 'var(--text-dim)' }}>{t.lessons.indexIntro}</p>
       <div className="lesson-grid">
         {LESSONS.map((l) => (
-          <LessonCard key={l.id} lesson={l} done={!!progress[l.id]?.bestWpm} />
+          <LessonCard
+            key={l.id}
+            lesson={l}
+            done={!!progress[l.id]?.bestWpm}
+            t={t}
+            onOpen={onOpen}
+          />
         ))}
       </div>
     </div>
@@ -145,19 +175,20 @@ function LessonIndex() {
 export function Lessons() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t, localizedPath } = useLocaleCtx();
 
   if (id) {
     const lesson = LESSONS.find((l) => l.id === id);
     if (!lesson) {
       return (
         <div>
-          <h1>Lesson not found</h1>
-          <button onClick={() => navigate('/lessons')}>← All lessons</button>
+          <h1>{t.lessons.notFound}</h1>
+          <button onClick={() => navigate(localizedPath('/lessons'))}>{t.lessons.backAll}</button>
         </div>
       );
     }
-    return <LessonRunner lesson={lesson} onExit={() => navigate('/lessons')} />;
+    return <LessonRunner lesson={lesson} onExit={() => navigate(localizedPath('/lessons'))} />;
   }
 
-  return <LessonIndex />;
+  return <LessonIndex onOpen={(lid) => navigate(localizedPath(`/lessons/${lid}`))} />;
 }
