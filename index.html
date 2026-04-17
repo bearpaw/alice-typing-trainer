@@ -4,6 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/alice-typing-trainer/favicon.svg" />
+    <meta name="theme-color" content="#14171f" />
+
+    <script>
+      (function () {
+        try {
+          var pref = localStorage.getItem('att.theme.v1');
+          var resolved;
+          if (pref === 'light' || pref === 'dark') {
+            resolved = pref;
+          } else {
+            var h = new Date().getHours();
+            resolved = h >= 6 && h < 18 ? 'light' : 'dark';
+          }
+          document.documentElement.setAttribute('data-theme', resolved);
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', resolved === 'light' ? '#f6f7fa' : '#14171f');
+        } catch (_) {}
+      })();
+    </script>
 
     <title>Alice Typing Trainer — Learn Alice Layout Keyboards</title>
     <meta
