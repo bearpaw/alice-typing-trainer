@@ -28,7 +28,7 @@ function KeyRect({
   const stroke = wrongOnThis
     ? 'var(--bad)'
     : highlight
-      ? '#fff'
+      ? 'var(--key-highlight-stroke)'
       : k.splitSensitive
         ? 'var(--warn)'
         : 'var(--border)';
@@ -71,7 +71,7 @@ function KeyRect({
         fontSize={label.length > 2 ? 10 : 14}
         fontFamily="ui-monospace, Menlo, monospace"
         fontWeight={highlight ? 700 : 500}
-        fill={wrongOnThis ? '#fff' : highlight ? '#0a0d14' : 'var(--text)'}
+        fill={wrongOnThis ? 'var(--wrong-text)' : highlight ? 'var(--key-highlight-text)' : 'var(--text)'}
       >
         {label}
       </text>

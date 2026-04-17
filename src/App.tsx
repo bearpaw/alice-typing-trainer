@@ -3,6 +3,7 @@ import { Home } from './pages/Home';
 import { Posture } from './pages/Posture';
 import { Lessons } from './pages/Lessons';
 import { Test } from './pages/Test';
+import { ThemeToggle } from './components/ThemeToggle';
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
             <NavLink to="/lessons">Lessons</NavLink>
             <NavLink to="/test">Speed Test</NavLink>
           </nav>
+          <ThemeToggle />
         </header>
         <main>
           <Routes>
