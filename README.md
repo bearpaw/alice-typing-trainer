@@ -9,6 +9,10 @@ A browser-based typing trainer for Alice-layout keyboards, with:
 
 Everything runs client-side. No data leaves your browser.
 
+## Live demo
+
+https://bearpaw.github.io/alice-typing-trainer/
+
 ## Local development
 
 Requires Node 20+.
