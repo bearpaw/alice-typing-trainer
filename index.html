@@ -22,7 +22,17 @@
           if (m) m.setAttribute('content', resolved === 'light' ? '#f6f7fa' : '#14171f');
         } catch (_) {}
       })();
-    </script>
+      (function () {
+        try {
+          var SUPPORTED = ['en', 'zh-CN', 'zh-TW', 'ja'];
+          var PREFIX = '/alice-typing-trainer';
+          var path = window.location.pathname || '';
+          var rest = path.indexOf(PREFIX) === 0 ? path.slice(PREFIX.length) : path;
+          var first = rest.split('/').filter(Boolean)[0] || '';
+          var lang = SUPPORTED.indexOf(first) !== -1 ? first : 'en';
+          document.documentElement.setAttribute('lang', lang);
+        } catch (_) {}
+      })();
 
     <title>Alice Typing Trainer — Learn Alice Layout Keyboards</title>
     <meta

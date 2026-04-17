@@ -1,3 +1,5 @@
+import { useT } from '../lib/i18n/context';
+
 type PanelProps = {
   label: string;
   ok: boolean;
@@ -19,51 +21,58 @@ const FOREARM_FILL = 'var(--bg-elev-2)';
 const FOREARM_STROKE = 'var(--text-dim)';
 
 export function WristNeutralDiagram() {
+  const t = useT();
   return (
-    <div className="diagram-row" aria-label="Wrist postures, side view">
-      <Panel label="Extension (bad)" ok={false}>
-        <WristSide angle={-40} tone="bad" />
+    <div className="diagram-row">
+      <Panel label={t.diagrams.extension} ok={false}>
+        <WristSide angle={-40} tone="bad" forearmLabel={t.diagrams.forearm} handLabel={t.diagrams.hand} />
       </Panel>
-      <Panel label="Neutral (good)" ok>
-        <WristSide angle={0} tone="good" />
+      <Panel label={t.diagrams.neutral} ok>
+        <WristSide angle={0} tone="good" forearmLabel={t.diagrams.forearm} handLabel={t.diagrams.hand} />
       </Panel>
-      <Panel label="Flexion (bad)" ok={false}>
-        <WristSide angle={34} tone="bad" />
+      <Panel label={t.diagrams.flexion} ok={false}>
+        <WristSide angle={34} tone="bad" forearmLabel={t.diagrams.forearm} handLabel={t.diagrams.hand} />
       </Panel>
     </div>
   );
 }
 
-function WristSide({ angle, tone }: { angle: number; tone: 'good' | 'bad' }) {
+function WristSide({
+  angle,
+  tone,
+  forearmLabel,
+  handLabel,
+}: {
+  angle: number;
+  tone: 'good' | 'bad';
+  forearmLabel: string;
+  handLabel: string;
+}) {
   const color = tone === 'good' ? 'var(--good)' : 'var(--bad)';
   return (
-    <svg viewBox="0 0 220 140" role="img" aria-label={`Side view of wrist at ${angle} degrees`}>
-      {/* Forearm */}
+    <svg viewBox="0 0 220 140" role="img">
       <rect x="10" y="55" width="105" height="32" rx="10" fill={FOREARM_FILL} stroke={FOREARM_STROKE} strokeWidth="2" />
-      {/* Hand — rotates around the wrist joint (115, 71) */}
       <g transform={`rotate(${angle} 115 71)`}>
         <rect x="115" y="55" width="85" height="32" rx="10" fill={FOREARM_FILL} stroke={color} strokeWidth="2.5" />
-        {/* Knuckles hint */}
         <line x1="192" y1="63" x2="198" y2="63" stroke={FOREARM_STROKE} strokeWidth="1.5" />
         <line x1="192" y1="71" x2="198" y2="71" stroke={FOREARM_STROKE} strokeWidth="1.5" />
         <line x1="192" y1="79" x2="198" y2="79" stroke={FOREARM_STROKE} strokeWidth="1.5" />
       </g>
-      {/* Wrist joint */}
       <circle cx="115" cy="71" r="4" fill={color} />
-      {/* Forearm label */}
-      <text x="62" y="108" fontSize="10" fill="var(--text-dim)" textAnchor="middle">forearm</text>
-      <text x="160" y="128" fontSize="10" fill="var(--text-dim)" textAnchor="middle">hand</text>
+      <text x="62" y="108" fontSize="10" fill="var(--text-dim)" textAnchor="middle">{forearmLabel}</text>
+      <text x="160" y="128" fontSize="10" fill="var(--text-dim)" textAnchor="middle">{handLabel}</text>
     </svg>
   );
 }
 
 export function UlnarDeviationDiagram() {
+  const t = useT();
   return (
-    <div className="diagram-row" aria-label="Ulnar deviation, top-down view">
-      <Panel label="Row-staggered — ulnar deviation" ok={false}>
+    <div className="diagram-row">
+      <Panel label={t.diagrams.rowStagger} ok={false}>
         <TopDownWrists alice={false} />
       </Panel>
-      <Panel label="Alice layout — neutral" ok>
+      <Panel label={t.diagrams.aliceNeutral} ok>
         <TopDownWrists alice />
       </Panel>
     </div>
@@ -75,7 +84,7 @@ function TopDownWrists({ alice }: { alice: boolean }) {
   const forearmAngle = alice ? 12 : 0;
   const handAngle = alice ? 12 : 22;
   return (
-    <svg viewBox="0 0 260 200" role="img" aria-label={alice ? 'Alice neutral' : 'Ulnar deviation'}>
+    <svg viewBox="0 0 260 200" role="img">
       {/* Keyboard outline */}
       <rect x="20" y="125" width="220" height="60" rx="10" fill="var(--bg-elev-2)" stroke="var(--border)" strokeWidth="1.5" />
       {/* Split hint: center gap on Alice panel */}
@@ -107,23 +116,32 @@ function TopDownWrists({ alice }: { alice: boolean }) {
 }
 
 export function FloatVsPlantDiagram() {
+  const t = useT();
   return (
-    <div className="diagram-row" aria-label="Floating versus planted wrists">
-      <Panel label="Float while typing" ok>
-        <ArmOnDesk planted={false} />
+    <div className="diagram-row">
+      <Panel label={t.diagrams.floatGood} ok>
+        <ArmOnDesk planted={false} pressureLabel={t.diagrams.pressure} gapLabel={t.diagrams.gap} />
       </Panel>
-      <Panel label="Plant while typing" ok={false}>
-        <ArmOnDesk planted />
+      <Panel label={t.diagrams.plantBad} ok={false}>
+        <ArmOnDesk planted pressureLabel={t.diagrams.pressure} gapLabel={t.diagrams.gap} />
       </Panel>
     </div>
   );
 }
 
-function ArmOnDesk({ planted }: { planted: boolean }) {
+function ArmOnDesk({
+  planted,
+  pressureLabel,
+  gapLabel,
+}: {
+  planted: boolean;
+  pressureLabel: string;
+  gapLabel: string;
+}) {
   const color = planted ? 'var(--bad)' : 'var(--good)';
   const armY = planted ? 95 : 70;
   return (
-    <svg viewBox="0 0 260 160" role="img" aria-label={planted ? 'Wrist planted on desk' : 'Wrist floating above desk'}>
+    <svg viewBox="0 0 260 160" role="img">
       {/* Desk */}
       <rect x="0" y="120" width="260" height="8" fill="var(--text-dim)" opacity="0.4" />
       {/* Keyboard */}
@@ -141,15 +159,13 @@ function ArmOnDesk({ planted }: { planted: boolean }) {
 
       {planted ? (
         <>
-          {/* Pressure indicator on wrist */}
           <path d="M140 92 L150 82 L160 92" fill="none" stroke="var(--bad)" strokeWidth="2" />
-          <text x="150" y="78" fontSize="10" fill="var(--bad)" textAnchor="middle" fontWeight="600">pressure</text>
+          <text x="150" y="78" fontSize="10" fill="var(--bad)" textAnchor="middle" fontWeight="600">{pressureLabel}</text>
         </>
       ) : (
         <>
-          {/* Gap indicator */}
           <line x1="150" y1={armY + 24} x2="150" y2="118" stroke="var(--good)" strokeWidth="1.5" strokeDasharray="3 3" />
-          <text x="162" y="108" fontSize="10" fill="var(--good)" fontWeight="600">gap</text>
+          <text x="162" y="108" fontSize="10" fill="var(--good)" fontWeight="600">{gapLabel}</text>
         </>
       )}
     </svg>
@@ -157,9 +173,10 @@ function ArmOnDesk({ planted }: { planted: boolean }) {
 }
 
 export function DeskGeometryDiagram() {
+  const t = useT();
   return (
-    <div className="diagram-solo" aria-label="Desk, chair, and monitor geometry">
-      <svg viewBox="0 0 420 260" role="img" aria-label="Side-view desk setup">
+    <div className="diagram-solo">
+      <svg viewBox="0 0 420 260" role="img">
         {/* Floor */}
         <line x1="0" y1="240" x2="420" y2="240" stroke="var(--text-dim)" strokeWidth="1.5" />
 
@@ -194,15 +211,10 @@ export function DeskGeometryDiagram() {
         <rect x="300" y="60" width="70" height="80" rx="3" fill="var(--bg-elev-2)" stroke="var(--border)" strokeWidth="1.5" />
         <rect x="330" y="140" width="10" height="6" fill="var(--border)" />
 
-        {/* Eye level line */}
         <line x1="78" y1="85" x2="330" y2="85" stroke="var(--good)" strokeWidth="1" strokeDasharray="4 3" />
-        <text x="200" y="78" fontSize="10" fill="var(--good)" textAnchor="middle" fontWeight="600">eye level — monitor top at or just below</text>
-
-        {/* Elbow angle callout */}
-        <text x="118" y="150" fontSize="10" fill="var(--good)" fontWeight="600">~90° elbow</text>
-
-        {/* Feet flat callout */}
-        <text x="150" y="232" fontSize="10" fill="var(--good)" fontWeight="600">feet flat</text>
+        <text x="200" y="78" fontSize="10" fill="var(--good)" textAnchor="middle" fontWeight="600">{t.diagrams.eyeLevel}</text>
+        <text x="118" y="150" fontSize="10" fill="var(--good)" fontWeight="600">{t.diagrams.elbow}</text>
+        <text x="150" y="232" fontSize="10" fill="var(--good)" fontWeight="600">{t.diagrams.feetFlat}</text>
       </svg>
     </div>
   );

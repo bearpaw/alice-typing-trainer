@@ -1,26 +1,17 @@
-import { ResolvedTheme, ThemePref, useTheme } from '../lib/theme';
-
-const NEXT_LABEL: Record<ThemePref, string> = {
-  auto: 'Switch to light mode',
-  light: 'Switch to dark mode',
-  dark: 'Switch to auto mode',
-};
-
-const TITLE: Record<ThemePref, string> = {
-  auto: 'Theme: auto (follows time of day)',
-  light: 'Theme: light',
-  dark: 'Theme: dark',
-};
+import { ResolvedTheme, useTheme } from '../lib/theme';
+import { useT } from '../lib/i18n/context';
 
 export function ThemeToggle() {
+  const t = useT();
   const { pref, resolved, cycle } = useTheme();
+  const entry = t.theme[pref];
   return (
     <button
       type="button"
       className="theme-toggle"
       onClick={cycle}
-      aria-label={NEXT_LABEL[pref]}
-      title={TITLE[pref]}
+      aria-label={entry.aria}
+      title={entry.title}
     >
       <Icon resolved={resolved} />
       {pref === 'auto' && <span className="theme-toggle__badge">A</span>}

@@ -423,3 +423,26 @@ table.history th { color: var(--text-dim); font-weight: 500; text-transform: upp
   background: var(--accent);
   border-radius: 7px;
 }
+
+.language-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0 0.4rem;
+  height: 36px;
+  background: var(--bg-elev);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+.language-picker:hover { border-color: var(--accent); }
+.language-picker select {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding-right: 0.15rem;
+  cursor: pointer;
+}

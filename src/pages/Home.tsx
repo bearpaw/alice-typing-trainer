@@ -1,53 +1,56 @@
 import { Link } from 'react-router-dom';
 import { KeyboardView } from '../components/KeyboardView';
 import { useSeo } from '../lib/seo';
+import { useLocaleCtx } from '../lib/i18n/context';
+import { Rich } from '../lib/i18n/RichText';
 
 export function Home() {
+  const { t, localizedPath, locale } = useLocaleCtx();
   useSeo({
-    title: 'Alice Typing Trainer — Learn Alice Layout Keyboards',
-    description:
-      'Free browser-based typing trainer for Alice-layout keyboards. Guided lessons, ergonomic posture guide, and WPM test. Practice split-sensitive keys (B, T, G, Y, H, N) to build Alice muscle memory.',
+    title: t.seo.home.title,
+    description: t.seo.home.description,
     path: '/',
+    locale,
   });
   return (
     <div>
       <div className="hero">
-        <h1>Learn to type on an Alice layout keyboard</h1>
+        <h1>{t.home.hero.title}</h1>
         <p>
-          Alice-layout keyboards split the two halves and angle them inward so your wrists stay
-          neutral. The tricky part is retraining the keys that now live on a different hand than
-          on a row-staggered keyboard: <strong>B, T, G</strong> are always <em>left</em>, and{' '}
-          <strong>Y, H, N</strong> are always <em>right</em>. This app helps you build that muscle
-          memory.
+          <Rich text={t.home.hero.desc} />
         </p>
       </div>
 
       <div className="row">
-        <Link to="/posture" className="card" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <h3>🧘 Posture &amp; ergonomics</h3>
-          <p style={{ margin: 0, color: 'var(--text-dim)' }}>
-            Wrist-neutral posture, desk setup, micro-breaks, and when to worry about carpal tunnel.
-          </p>
+        <Link
+          to={localizedPath('/posture')}
+          className="card"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <h3>{t.home.cards.posture.title}</h3>
+          <p style={{ margin: 0, color: 'var(--text-dim)' }}>{t.home.cards.posture.desc}</p>
         </Link>
-        <Link to="/lessons" className="card" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <h3>📚 Guided lessons</h3>
-          <p style={{ margin: 0, color: 'var(--text-dim)' }}>
-            Eight progressive drills, starting with home row and working up to split-sensitive
-            keys and full sentences.
-          </p>
+        <Link
+          to={localizedPath('/lessons')}
+          className="card"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <h3>{t.home.cards.lessons.title}</h3>
+          <p style={{ margin: 0, color: 'var(--text-dim)' }}>{t.home.cards.lessons.desc}</p>
         </Link>
-        <Link to="/test" className="card" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <h3>⏱ Speed test</h3>
-          <p style={{ margin: 0, color: 'var(--text-dim)' }}>
-            Timed WPM + accuracy test. Progress saved locally so you can watch yourself improve.
-          </p>
+        <Link
+          to={localizedPath('/test')}
+          className="card"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <h3>{t.home.cards.test.title}</h3>
+          <p style={{ margin: 0, color: 'var(--text-dim)' }}>{t.home.cards.test.desc}</p>
         </Link>
       </div>
 
-      <h2>Your keyboard</h2>
+      <h2>{t.home.keyboardHeading}</h2>
       <p style={{ color: 'var(--text-dim)' }}>
-        Finger-zone coloring. Keys with a <strong style={{ color: 'var(--warn)' }}>yellow</strong>{' '}
-        border are the split-sensitive ones.
+        <Rich text={t.home.keyboardDesc} />
       </p>
       <div className="keyboard-wrap">
         <KeyboardView highlightChar={null} />

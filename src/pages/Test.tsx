@@ -5,15 +5,17 @@ import { pickRandomQuote } from '../lib/lessons';
 import { appendHistory, clearHistory, loadHistory, TestResult } from '../lib/storage';
 import { Sparkline } from '../components/Sparkline';
 import { useSeo } from '../lib/seo';
+import { useLocaleCtx } from '../lib/i18n/context';
 
 const DURATIONS = [30, 60, 120] as const;
 
 export function Test() {
+  const { t, locale } = useLocaleCtx();
   useSeo({
-    title: 'Alice Layout Typing Speed Test — WPM & Accuracy',
-    description:
-      'Timed 30, 60, or 120 second WPM and accuracy typing test for Alice-layout keyboards. Track your progress locally in your browser — no signup, no data leaves your device.',
+    title: t.seo.test.title,
+    description: t.seo.test.description,
     path: '/test',
+    locale,
   });
   const [duration, setDuration] = useState<(typeof DURATIONS)[number]>(60);
   const [quote, setQuote] = useState(pickRandomQuote);
@@ -70,14 +72,11 @@ export function Test() {
 
   return (
     <div>
-      <h1>Speed test</h1>
-      <p style={{ color: 'var(--text-dim)' }}>
-        Timed WPM + accuracy. Results are saved in your browser's localStorage — nothing leaves
-        this device.
-      </p>
+      <h1>{t.test.title}</h1>
+      <p style={{ color: 'var(--text-dim)' }}>{t.test.intro}</p>
 
       <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
-        <span style={{ color: 'var(--text-dim)', fontSize: '0.9rem' }}>Duration:</span>
+        <span style={{ color: 'var(--text-dim)', fontSize: '0.9rem' }}>{t.test.duration}</span>
         <div className="segmented">
           {DURATIONS.map((d) => (
             <button
@@ -92,21 +91,21 @@ export function Test() {
             </button>
           ))}
         </div>
-        <button onClick={() => restart(true)}>New quote</button>
-        <button onClick={() => restart(false)}>Retry same</button>
+        <button onClick={() => restart(true)}>{t.test.newQuote}</button>
+        <button onClick={() => restart(false)}>{t.test.retrySame}</button>
       </div>
 
       <div className="stats">
         <div className="stat">
-          <div className="label">Time left</div>
+          <div className="label">{t.test.timeLeft}</div>
           <div className="value">{timeLeft.toFixed(1)}s</div>
         </div>
         <div className="stat">
-          <div className="label">WPM</div>
+          <div className="label">{t.test.wpm}</div>
           <div className="value">{stats ? stats.wpm.toFixed(1) : '—'}</div>
         </div>
         <div className="stat">
-          <div className="label">Accuracy</div>
+          <div className="label">{t.test.accuracy}</div>
           <div className="value">{stats ? `${stats.accuracy.toFixed(1)}%` : '—'}</div>
         </div>
       </div>
@@ -126,40 +125,40 @@ export function Test() {
 
       {finished && stats && (
         <div className="card" style={{ marginTop: '1rem' }}>
-          <h3 style={{ marginTop: 0 }}>Result</h3>
+          <h3 style={{ marginTop: 0 }}>{t.test.result}</h3>
           <div className="results">
             <div className="big">
-              {stats.wpm.toFixed(1)} <small>WPM</small>
+              {stats.wpm.toFixed(1)} <small>{t.test.wpm}</small>
             </div>
             <div className="big">
               {stats.accuracy.toFixed(1)}
-              <small>% accuracy</small>
+              <small>% {t.test.accuracy.toLowerCase()}</small>
             </div>
             <div className="big">
               {stats.correctChars}
-              <small>chars typed correctly</small>
+              <small>{t.test.charsCorrect}</small>
             </div>
           </div>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button className="primary" onClick={() => restart(true)}>
-              New test
+              {t.test.newTest}
             </button>
-            <button onClick={() => restart(false)}>Retry same quote</button>
+            <button onClick={() => restart(false)}>{t.test.retrySame}</button>
           </div>
         </div>
       )}
 
-      <h2>Your history</h2>
+      <h2>{t.test.historyHeading}</h2>
       <Sparkline values={wpmSeries} />
       {history.length > 0 && (
         <>
           <table className="history" style={{ marginTop: '0.75rem' }}>
             <thead>
               <tr>
-                <th>When</th>
-                <th>Duration</th>
-                <th>WPM</th>
-                <th>Accuracy</th>
+                <th>{t.test.tableCols.when}</th>
+                <th>{t.test.tableCols.duration}</th>
+                <th>{t.test.tableCols.wpm}</th>
+                <th>{t.test.tableCols.accuracy}</th>
               </tr>
             </thead>
             <tbody>
@@ -168,7 +167,7 @@ export function Test() {
                 .slice(0, 10)
                 .map((r) => (
                   <tr key={r.timestamp}>
-                    <td>{new Date(r.timestamp).toLocaleString()}</td>
+                    <td>{new Date(r.timestamp).toLocaleString(locale)}</td>
                     <td>{r.durationSec}s</td>
                     <td>{r.wpm.toFixed(1)}</td>
                     <td>{r.accuracy.toFixed(1)}%</td>
@@ -179,13 +178,13 @@ export function Test() {
           <button
             style={{ marginTop: '0.75rem' }}
             onClick={() => {
-              if (confirm('Clear all typing test history?')) {
+              if (confirm(t.test.clearConfirm)) {
                 clearHistory();
                 setHistory([]);
               }
             }}
           >
-            Clear history
+            {t.test.clearHistory}
           </button>
         </>
       )}
