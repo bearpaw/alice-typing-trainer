@@ -1,7 +1,16 @@
+import { Link } from 'react-router-dom';
+import { useSeo } from '../lib/seo';
+
 export function Posture() {
+  useSeo({
+    title: 'Alice Keyboard Posture & Ergonomics — Prevent Wrist Pain',
+    description:
+      'Wrist-neutral typing posture, desk and chair setup, micro-break routines, and carpal tunnel prevention tips for Alice-layout keyboard users.',
+    path: '/posture',
+  });
   return (
     <div className="posture">
-      <h1>Posture &amp; ergonomics</h1>
+      <h1>Alice keyboard posture &amp; ergonomics</h1>
       <p style={{ color: 'var(--text-dim)' }}>
         A split Alice keyboard only helps if the rest of your setup cooperates. Here's a practical
         checklist, ordered roughly from most to least impactful for wrist pain and carpal tunnel
@@ -82,8 +91,8 @@ export function Posture() {
           <strong>Retrain split-sensitive keys deliberately.</strong> B, T, G are <em>left</em>.
           Y, H, N are <em>right</em>. If you're coming from a row-staggered board, you probably
           cross-hand one of these — usually Y with the left index or B with the right. See{' '}
-          <a href="#/lessons/bottom-alice">Lesson 5</a> and{' '}
-          <a href="#/lessons/split-sensitive">Lesson 6</a>.
+          <Link to="/lessons/bottom-alice">Lesson 5</Link> and{' '}
+          <Link to="/lessons/split-sensitive">Lesson 6</Link>.
         </li>
         <li>
           <strong>Tenting helps too.</strong> Most Alice boards are flat, but a slight forward

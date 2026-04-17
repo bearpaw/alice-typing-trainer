@@ -4,10 +4,17 @@ import { KeyboardView, SplitCallout } from '../components/KeyboardView';
 import { pickRandomQuote } from '../lib/lessons';
 import { appendHistory, clearHistory, loadHistory, TestResult } from '../lib/storage';
 import { Sparkline } from '../components/Sparkline';
+import { useSeo } from '../lib/seo';
 
 const DURATIONS = [30, 60, 120] as const;
 
 export function Test() {
+  useSeo({
+    title: 'Alice Layout Typing Speed Test — WPM & Accuracy',
+    description:
+      'Timed 30, 60, or 120 second WPM and accuracy typing test for Alice-layout keyboards. Track your progress locally in your browser — no signup, no data leaves your device.',
+    path: '/test',
+  });
   const [duration, setDuration] = useState<(typeof DURATIONS)[number]>(60);
   const [quote, setQuote] = useState(pickRandomQuote);
   const [resetKey, setResetKey] = useState(0);

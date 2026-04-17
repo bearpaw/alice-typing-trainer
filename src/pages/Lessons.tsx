@@ -4,6 +4,7 @@ import { LESSONS, Lesson } from '../lib/lessons';
 import { TypingArena, TypingStats } from '../components/TypingArena';
 import { KeyboardView, SplitCallout } from '../components/KeyboardView';
 import { loadLessonProgress, saveLessonResult } from '../lib/storage';
+import { useSeo } from '../lib/seo';
 
 function LessonCard({ lesson, done }: { lesson: Lesson; done: boolean }) {
   return (
@@ -20,6 +21,11 @@ function LessonCard({ lesson, done }: { lesson: Lesson; done: boolean }) {
 }
 
 function LessonRunner({ lesson, onExit }: { lesson: Lesson; onExit: () => void }) {
+  useSeo({
+    title: `${lesson.title} — Alice Typing Trainer`,
+    description: `${lesson.desc} Practice this Alice-layout drill in your browser.`,
+    path: `/lessons/${lesson.id}`,
+  });
   const [nextChar, setNextChar] = useState<string | null>(lesson.drill[0] ?? null);
   const [stats, setStats] = useState<TypingStats | null>(null);
   const [finished, setFinished] = useState(false);
@@ -112,10 +118,33 @@ function LessonRunner({ lesson, onExit }: { lesson: Lesson; onExit: () => void }
   );
 }
 
+function LessonIndex() {
+  useSeo({
+    title: 'Alice Layout Typing Lessons — Practice Split-Sensitive Keys',
+    description:
+      'Eight progressive typing drills for Alice-layout keyboards, from home row to split-sensitive B, T, G, Y, H, N practice and full sentences.',
+    path: '/lessons',
+  });
+  const progress = useMemo(() => loadLessonProgress(), []);
+  return (
+    <div>
+      <h1>Alice layout typing lessons</h1>
+      <p style={{ color: 'var(--text-dim)' }}>
+        Work through these in order. Lesson 5 and 6 are the most important for un-learning
+        row-staggered habits on an Alice board.
+      </p>
+      <div className="lesson-grid">
+        {LESSONS.map((l) => (
+          <LessonCard key={l.id} lesson={l} done={!!progress[l.id]?.bestWpm} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function Lessons() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const progress = useMemo(() => loadLessonProgress(), []);
 
   if (id) {
     const lesson = LESSONS.find((l) => l.id === id);
@@ -130,18 +159,5 @@ export function Lessons() {
     return <LessonRunner lesson={lesson} onExit={() => navigate('/lessons')} />;
   }
 
-  return (
-    <div>
-      <h1>Guided lessons</h1>
-      <p style={{ color: 'var(--text-dim)' }}>
-        Work through these in order. Lesson 5 and 6 are the most important for un-learning
-        row-staggered habits on an Alice board.
-      </p>
-      <div className="lesson-grid">
-        {LESSONS.map((l) => (
-          <LessonCard key={l.id} lesson={l} done={!!progress[l.id]?.bestWpm} />
-        ))}
-      </div>
-    </div>
-  );
+  return <LessonIndex />;
 }

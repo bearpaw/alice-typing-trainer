@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1f2a44"/>
+      <stop offset="100%" stop-color="#2a2540"/>
+    </linearGradient>
+    <linearGradient id="leftGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6fa3ff"/>
+      <stop offset="100%" stop-color="#3a6dd0"/>
+    </linearGradient>
+    <linearGradient id="rightGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffb76a"/>
+      <stop offset="100%" stop-color="#d07f2a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <g transform="translate(600 360)" font-family="-apple-system, Segoe UI, system-ui, sans-serif" fill="#ffffff">
+    <g transform="translate(-260 -40)">
+      <g transform="rotate(-10)">
+        <rect x="-180" y="-80" width="260" height="160" rx="14" fill="url(#leftGrad)" opacity="0.95"/>
+        <g fill="#fff" font-size="26" font-weight="600" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">
+          <rect x="-160" y="-60" width="46" height="46" rx="6" fill="rgba(255,255,255,0.18)"/>
+          <text x="-137" y="-28">A</text>
+          <rect x="-104" y="-60" width="46" height="46" rx="6" fill="rgba(255,255,255,0.18)"/>
+          <text x="-81" y="-28">S</text>
+          <rect x="-48" y="-60" width="46" height="46" rx="6" fill="rgba(255,255,255,0.18)"/>
+          <text x="-25" y="-28">D</text>
+          <rect x="8" y="-60" width="46" height="46" rx="6" fill="rgba(255,255,255,0.95)"/>
+          <text x="31" y="-28" fill="#1f2a44">F</text>
+
+          <rect x="-160" y="-8" width="46" height="46" rx="6" fill="rgba(255,255,255,0.18)"/>
+          <text x="-137" y="24">Z</text>
+          <rect x="-104" y="-8" width="46" height="46" rx="6" fill="rgba(255,255,255,0.18)"/>
+          <text x="-81" y="24">X</text>
+          <rect x="-48" y="-8" width="46" height="46" rx="6" fill="rgba(255,255,255,0.18)"/>
+          <text x="-25" y="24">C</text>
+          <rect x="8" y="-8" width="46" height="46" rx="6" fill="rgba(255,255,255,0.18)"/>
+          <text x="31" y="24">V</text>
+        </g>
+      </g>
+    </g>
+
+    <g transform="translate(260 -40)">
+      <g transform="rotate(10)">
+        <rect x="-80" y="-80" width="260" height="160" rx="14" fill="url(#rightGrad)" opacity="0.95"/>
+        <g fill="#fff" font-size="26" font-weight="600" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">
+          <rect x="-60" y="-60" width="46" height="46" rx="6" fill="rgba(255,255,255,0.95)"/>
+          <text x="-37" y="-28" fill="#3a1d00">J</text>
+          <rect x="-4" y="-60" width="46" height="46" rx="6" fill="rgba(255,255,255,0.18)"/>
+          <text x="19" y="-28">K</text>
+          <rect x="52" y="-60" width="46" height="46" rx="6" fill="rgba(255,255,255,0.18)"/>
+          <text x="75" y="-28">L</text>
+          <rect x="108" y="-60" width="46" height="46" rx="6" fill="rgba(255,255,255,0.18)"/>
+          <text x="131" y="-28">;</text>
+
+          <rect x="-60" y="-8" width="46" height="46" rx="6" fill="rgba(255,255,255,0.18)"/>
+          <text x="-37" y="24">N</text>
+          <rect x="-4" y="-8" width="46" height="46" rx="6" fill="rgba(255,255,255,0.18)"/>
+          <text x="19" y="24">M</text>
+          <rect x="52" y="-8" width="46" height="46" rx="6" fill="rgba(255,255,255,0.18)"/>
+          <text x="75" y="24">,</text>
+          <rect x="108" y="-8" width="46" height="46" rx="6" fill="rgba(255,255,255,0.18)"/>
+          <text x="131" y="24">.</text>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <text x="600" y="140" font-family="-apple-system, Segoe UI, system-ui, sans-serif" font-size="68" font-weight="800" text-anchor="middle" fill="#ffffff">Alice Typing Trainer</text>
+  <text x="600" y="196" font-family="-apple-system, Segoe UI, system-ui, sans-serif" font-size="28" font-weight="400" text-anchor="middle" fill="#c7cede">Learn your Alice-layout keyboard — lessons, posture, WPM</text>
+
+  <text x="600" y="560" font-family="-apple-system, Segoe UI, system-ui, sans-serif" font-size="22" font-weight="500" text-anchor="middle" fill="#8b93a7">bearpaw.github.io/alice-typing-trainer</text>
+</svg>

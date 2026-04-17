@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bearpaw.github.io/alice-typing-trainer/sitemap.xml

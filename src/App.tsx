@@ -1,4 +1,4 @@
-import { HashRouter, NavLink, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter, NavLink, Route, Routes, Link } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Posture } from './pages/Posture';
 import { Lessons } from './pages/Lessons';
@@ -6,7 +6,7 @@ import { Test } from './pages/Test';
 
 export default function App() {
   return (
-    <HashRouter>
+    <BrowserRouter basename="/alice-typing-trainer">
       <div className="app">
         <header className="nav">
           <Link to="/" className="brand">⌨︎ Alice Typing Trainer</Link>
@@ -30,6 +30,6 @@ export default function App() {
           For Alice-layout keyboards — local-only, no data leaves your browser.
         </div>
       </div>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
