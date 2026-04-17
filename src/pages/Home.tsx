@@ -1,11 +1,18 @@
 import { Link } from 'react-router-dom';
 import { KeyboardView } from '../components/KeyboardView';
+import { useSeo } from '../lib/seo';
 
 export function Home() {
+  useSeo({
+    title: 'Alice Typing Trainer — Learn Alice Layout Keyboards',
+    description:
+      'Free browser-based typing trainer for Alice-layout keyboards. Guided lessons, ergonomic posture guide, and WPM test. Practice split-sensitive keys (B, T, G, Y, H, N) to build Alice muscle memory.',
+    path: '/',
+  });
   return (
     <div>
       <div className="hero">
-        <h1>Learn your Alice layout.</h1>
+        <h1>Learn to type on an Alice layout keyboard</h1>
         <p>
           Alice-layout keyboards split the two halves and angle them inward so your wrists stay
           neutral. The tricky part is retraining the keys that now live on a different hand than
